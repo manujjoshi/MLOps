@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "TaxiProject",
+			"path": "../taxi/TaxiProject"
+		}
+	],
+	"settings": {}
+}

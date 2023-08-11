@@ -1,0 +1,11 @@
+azureml-core
+azureml-sdk
+azureml-defaults
+scikit-learn
+pandas
+gast
+glob2
+imutils
+numpy
+joblib
+argparse
