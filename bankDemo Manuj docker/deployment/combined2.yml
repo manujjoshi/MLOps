@@ -1,0 +1,36 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: bankdemo
+spec:
+  replicas: 3  ## deployment bydefault use replicaset
+  selector:
+    matchLabels:
+      app: webapp
+  template: 
+#   kind: Pod      (bydefault)
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: bankdemo
+          image: acraksdsteamrnd.azurecr.io/manujjoshi/salesforecasting:latest
+      imagePullSecrets:
+        - name: regcred
+        
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+    - port: 9000  ### wanna expose to
+      targetPort: 8080
+

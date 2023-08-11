@@ -1,0 +1,65 @@
+####################### Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: nivesh8440/flight-fare-prediction:v1
+        resources:
+          limits:
+            cpu: "1"
+          requests:
+            cpu: "0.5"
+---
+############################ HPA
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flight-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+######################## Service
+
+apiVersion: v1
+
+kind: Service
+
+metadata:
+  name: bank-note-loadbalaner
+
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+       
+
+  selector:
+    app: my-app
+    
